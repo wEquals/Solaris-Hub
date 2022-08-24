@@ -1,0 +1,35 @@
+--Krypton main
+
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "Krypton", HidePremium = false, SaveConfig = true, ConfigFolder = "Test"})
+
+local Tab = Window:MakeTab({
+	Name = "Tab 1",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local Section = Tab:AddSection({
+    Name = "Section"
+})
+
+OrionLib:MakeNotification({
+	Name = "Krypton",
+	Content = "Krypton loaded.",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+
+Tab:AddButton({
+	Name = "box esp!",
+	Callback = function()
+		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/box%20esp')))()
+  	end    
+})
+
+Tab:AddButton({
+	Name = "name esp!",
+	Callback = function()
+		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/name%20esp?token=GHSAT0AAAAAABXVCZMQRI5JY47PNSY45B6EYYF64MQ')))()
+  	end    
+})
