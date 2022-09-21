@@ -119,11 +119,3 @@ Tab:AddButton({
 		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/fly')))()
   	end    
 })
-
-Tab:AddToggle({
-	Name = "Fly!",
-	Default = false,
-	Callback = function(Value)
-		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/fly')))()
-	end    
-})
