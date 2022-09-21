@@ -1,10 +1,15 @@
---Krypton main
+
+print("1/4 Loading Krypton...")
+print("2/4 Authenticating...")
+print("3/4 Starting main...")
+print("4/4 Finished")
+
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "Krypton", HidePremium = false, SaveConfig = true, ConfigFolder = "Test"})
+local Window = OrionLib:MakeWindow({Name = "Krypton", HidePremium = false, SaveConfig = true, ConfigFolder = "1"})
 
 local Tab = Window:MakeTab({
-	Name = "Tab 1",
+	Name = "ESP Section",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
@@ -15,21 +20,110 @@ local Section = Tab:AddSection({
 
 OrionLib:MakeNotification({
 	Name = "Krypton",
-	Content = "Krypton loaded.",
+	Content = "User connected.",
 	Image = "rbxassetid://4483345998",
 	Time = 5
 })
 
+OrionLib:MakeNotification({
+	Name = "Krypton",
+	Content = "Welcome to krypton.",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+
+
 Tab:AddButton({
-	Name = "box esp!",
+	Name = "Box ESP",
 	Callback = function()
 		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/box%20esp')))()
   	end    
 })
 
 Tab:AddButton({
-	Name = "name esp!",
+	Name = "Name ESP",
 	Callback = function()
-		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/name%20esp?token=GHSAT0AAAAAABXVCZMQRI5JY47PNSY45B6EYYF64MQ')))()
+		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/name%20esp')))()
   	end    
+})
+
+Tab:AddButton({
+	Name = "Chams",
+	Callback = function()
+		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/Chams')))()
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Skeleton ESP",
+	Callback = function()
+		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/Skeleton%20ESP')))()
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Highlight ESP",
+	Callback = function()
+		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/highlight')))()
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Tracers",
+	Callback = function()
+		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/Tracers')))()
+  	end    
+})
+
+local Tab = Window:MakeTab({
+	Name = "Aimbot section",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = true
+})
+
+Tab:AddButton({
+	Name = "Aimbot + FOV Circle",
+	Callback = function()
+		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/Aimbot%20and%20FOV%20Circle')))()
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Triggerbot",
+	Callback = function()
+		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/Triggerbot')))()
+  	end    
+})
+
+local Tab = Window:MakeTab({
+	Name = "Misc",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = true
+})
+
+Tab:AddButton({
+	Name = "Walkspeed",
+	Callback = function()
+		OrionLib:MakeNotification({
+			Name = "Krypton!",
+			Content = "Wakspeed is in the works and it does not currently work. Check back soon or wait for notifications on the discord.",
+			Image = "rbxassetid://4483345998",
+			Time = 5
+		})
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Fly",
+	Callback = function()
+		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/fly')))()
+  	end    
+})
+
+Tab:AddToggle({
+	Name = "Fly!",
+	Default = false,
+	Callback = function(Value)
+		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/fly')))()
+	end    
 })
