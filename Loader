@@ -6,7 +6,7 @@ print("4/4 Finished")
 
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "Krypton", HidePremium = false, SaveConfig = true, ConfigFolder = "1"})
+local Window = OrionLib:MakeWindow({Name = "Krypton", HidePremium = false, IntroText = "Krypton", SaveConfig = true, ConfigFolder = "1"})
 
 local Tab = Window:MakeTab({
 	Name = "ESP Section",
