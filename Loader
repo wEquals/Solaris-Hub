@@ -6,7 +6,7 @@ print("4/4 Finished")
 
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "Krypton", HidePremium = false, SaveConfig = true, ConfigFolder = "1"})
+local Window = OrionLib:MakeWindow({Name = "Krypton", HidePremium = false, IntroText = "Krypton", SaveConfig = true, ConfigFolder = "1"})
 
 local Tab = Window:MakeTab({
 	Name = "ESP Section",
@@ -21,7 +21,7 @@ local Section = Tab:AddSection({
 OrionLib:MakeNotification({
 	Name = "Krypton",
 	Content = "User connected.",
-	Image = "rbxassetid://4483345998",
+	Image = "rbxassetid://6288094448",
 	Time = 5
 })
 
@@ -117,5 +117,11 @@ Tab:AddButton({
 	Name = "Fly",
 	Callback = function()
 		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/fly')))()
+		OrionLib:MakeNotification({
+			Name = "Krypton!",
+			Content = "Keybind is F.",
+			Image = "rbxassetid://4483345998",
+			Time = 5
+		})
   	end    
 })
