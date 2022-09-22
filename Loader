@@ -1,12 +1,12 @@
 
-print("1/4 Loading Krypton...")
+print("1/4 Loading Solaris...")
 print("2/4 Authenticating...")
 print("3/4 Starting main...")
 print("4/4 Finished")
 
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "Krypton", HidePremium = false, IntroText = "Krypton", SaveConfig = true, ConfigFolder = "1"})
+local Window = OrionLib:MakeWindow({Name = "Solaris", HidePremium = false, IntroText = "Solaris Hub", SaveConfig = true, ConfigFolder = "1"})
 
 local Tab = Window:MakeTab({
 	Name = "ESP Section",
@@ -19,15 +19,15 @@ local Section = Tab:AddSection({
 })
 
 OrionLib:MakeNotification({
-	Name = "Krypton",
+	Name = "Solaris Hub",
 	Content = "User connected.",
 	Image = "rbxassetid://6288094448",
 	Time = 5
 })
 
 OrionLib:MakeNotification({
-	Name = "Krypton",
-	Content = "Welcome to krypton.",
+	Name = "Solaris Hub",
+	Content = "Welcome to Solaris.",
 	Image = "rbxassetid://4483345998",
 	Time = 5
 })
@@ -105,7 +105,7 @@ Tab:AddButton({
 	Name = "Walkspeed",
 	Callback = function()
 		OrionLib:MakeNotification({
-			Name = "Krypton!",
+			Name = "Solaris Hub!",
 			Content = "Wakspeed is in the works and it does not currently work. Check back soon or wait for notifications on the discord.",
 			Image = "rbxassetid://4483345998",
 			Time = 5
@@ -118,7 +118,7 @@ Tab:AddButton({
 	Callback = function()
 		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/hub/main/fly')))()
 		OrionLib:MakeNotification({
-			Name = "Krypton!",
+			Name = "Solaris Hub!",
 			Content = "Keybind is F.",
 			Image = "rbxassetid://4483345998",
 			Time = 5
