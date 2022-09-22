@@ -1,80 +1,147 @@
-repeat wait()
-    until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("Torso") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid")
-local mouse = game.Players.LocalPlayer:GetMouse()
-repeat wait() until mouse
-local plr = game.Players.LocalPlayer
-local torso = plr.Character.Torso
-local flying = true
-local deb = true
-local ctrl = {f = 0, b = 0, l = 0, r = 0}
-local lastctrl = {f = 0, b = 0, l = 0, r = 0}
-local maxspeed = 50
-local speed = 0
+local Settings = {
+	
+	Speed = 5,
+	SprintSpeed = 30,
+	ToggleKey = Enum.KeyCode.F,
+	SprintKey = Enum.KeyCode.LeftControl,
+	
+	ForwardKey = Enum.KeyCode.W,
+	LeftKey = Enum.KeyCode.A,
+	BackwardKey = Enum.KeyCode.S,
+	RightKey = Enum.KeyCode.D,
+	UpKey = Enum.KeyCode.E,
+	DownKey = Enum.KeyCode.Q,
+	
+}
+
+local Mouse = game.Players.LocalPlayer:GetMouse()
+local Direction = Vector3.new(0,0,0)
+local InterpolatedDir = Direction
+local Tilt = 0
+local InterpolatedTilt = Tilt
+local RunService = game:GetService("RunService")
+local Toggled = false
+local Sprinting = false
+local CameraPos = game.Workspace.CurrentCamera.CFrame.Position
+
+pcall(function()
+	game.Players.LocalPlayer.DevCameraOcclusionMode = Enum.DevCameraOcclusionMode.Invisicam	
+end)
+
+function Lerp(a, b, t)
+    return a + (b - a) * t
+end
+
+local LastPos = nil
+
+function KeyHandler(actionName, userInputState)
+	if true and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+		if actionName == "Toggle" and userInputState == Enum.UserInputState.Begin then
+			Toggled = not Toggled
+			if Toggled then
+				LastPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+				--game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+				game.Players.LocalPlayer.Character.Humanoid.PlatformStand = true 
+			else
+				LastPos = nil
+				game.Players.LocalPlayer.Character.Humanoid.PlatformStand = false
+				--game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+			end
+		elseif actionName == "Forward" then
+			Tilt = userInputState == Enum.UserInputState.Begin and -20 or 0
+			Direction = Vector3.new(Direction.x,Direction.y,userInputState == Enum.UserInputState.Begin and -1 or 0)
+		elseif actionName == "Left" then
+			Direction = Vector3.new(userInputState == Enum.UserInputState.Begin and -1 or 0,Direction.y,Direction.z)
+		elseif actionName == "Backward" then
+			Tilt = userInputState == Enum.UserInputState.Begin and 20 or 0
+			Direction = Vector3.new(Direction.x,Direction.y,userInputState == Enum.UserInputState.Begin and 1 or 0)
+		elseif actionName == "Right" then
+			Direction = Vector3.new(userInputState == Enum.UserInputState.Begin and 1 or 0,Direction.y,Direction.z)
+		elseif actionName == "Up" then
+			Direction = Vector3.new(Direction.x,userInputState == Enum.UserInputState.Begin and 1 or 0,Direction.z)
+		elseif actionName == "Down" then
+			Direction = Vector3.new(Direction.x,userInputState == Enum.UserInputState.Begin and -1 or 0,Direction.z)
+		elseif actionName == "Sprint" then
+			Sprinting = userInputState == Enum.UserInputState.Begin
+		end
+	end
+end
+
+
+
+game:GetService("UserInputService").InputBegan:connect(function(inputObject, gameProcessedEvent)
+	
+	if inputObject.KeyCode == Settings.ToggleKey then
+		KeyHandler("Toggle", Enum.UserInputState.Begin, inputObject)
+	elseif inputObject.KeyCode == Settings.ForwardKey then
+		KeyHandler("Forward", Enum.UserInputState.Begin, inputObject)
+	elseif inputObject.KeyCode == Settings.LeftKey then
+		KeyHandler("Left", Enum.UserInputState.Begin, inputObject)
+	elseif inputObject.KeyCode == Settings.BackwardKey then
+		KeyHandler("Backward", Enum.UserInputState.Begin, inputObject)
+	elseif inputObject.KeyCode == Settings.RightKey then
+		KeyHandler("Right", Enum.UserInputState.Begin, inputObject)
+	elseif inputObject.KeyCode == Settings.UpKey then	
+		KeyHandler("Up", Enum.UserInputState.Begin, inputObject)
+	elseif inputObject.KeyCode == Settings.DownKey then
+		KeyHandler("Down", Enum.UserInputState.Begin, inputObject)
+	elseif inputObject.KeyCode == Settings.SprintKey then
+		KeyHandler("Sprint", Enum.UserInputState.Begin, inputObject)
+	end
+	
+	
+end)
+
+
+game:GetService("UserInputService").InputEnded:connect(function(inputObject, gameProcessedEvent)
+	
+	if inputObject.KeyCode == Settings.ToggleKey then
+		KeyHandler("Toggle", Enum.UserInputState.End, inputObject)
+	elseif inputObject.KeyCode == Settings.ForwardKey then
+		KeyHandler("Forward", Enum.UserInputState.End, inputObject)
+	elseif inputObject.KeyCode == Settings.LeftKey then
+		KeyHandler("Left", Enum.UserInputState.End, inputObject)
+	elseif inputObject.KeyCode == Settings.BackwardKey then
+		KeyHandler("Backward", Enum.UserInputState.End, inputObject)
+	elseif inputObject.KeyCode == Settings.RightKey then
+		KeyHandler("Right", Enum.UserInputState.End, inputObject)
+	elseif inputObject.KeyCode == Settings.UpKey then	
+		KeyHandler("Up", Enum.UserInputState.End, inputObject)
+	elseif inputObject.KeyCode == Settings.DownKey then
+		KeyHandler("Down", Enum.UserInputState.End, inputObject)
+	elseif inputObject.KeyCode == Settings.SprintKey then
+		KeyHandler("Sprint", Enum.UserInputState.End, inputObject)
+	end
+	
+	
+end)
+
+
+RunService.RenderStepped:Connect(function()
+	if Toggled and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")  then
+		for i,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+			if v:IsA("BasePart") then
+				v.Velocity = Vector3.new(0,0,0)
+			end
+		end
+		local RootPart = game.Players.LocalPlayer.Character.HumanoidRootPart
+		if LastPos then
+			Distance.Text = math.floor((LastPos-RootPart.Position).Magnitude+.5)
+			if (LastPos-RootPart.Position).Magnitude >= 350 then
+				Distance.TextColor3 = Color3.new(1,0,0)
+			else
+				Distance.TextColor3 = Color3.new(1,1,1)	
+			end
+		else
+			Distance.TextColor3 = Color3.new(1,1,1)
+			Distance.Text = 0
+		end
+		InterpolatedDir = InterpolatedDir:Lerp((Direction * (Sprinting and Settings.SprintSpeed or Settings.Speed)),.2)
+		InterpolatedTilt = Lerp(InterpolatedTilt ,Tilt* (Sprinting and 2 or 1),Tilt == 0 and .2 or .1)
+		RootPart.CFrame = RootPart.CFrame:Lerp(CFrame.new(RootPart.Position,RootPart.Position + Mouse.UnitRay.Direction) * CFrame.Angles(0,math.rad(00),0) * CFrame.new(InterpolatedDir)  * CFrame.Angles(math.rad(InterpolatedTilt),0,0),.2)
+	else
+		Distance.TextColor3 = Color3.new(1,1,1)
+		Distance.Text = 0
+	end	
+end)
  
-function Fly()
-local bg = Instance.new("BodyGyro", torso)
-bg.P = 9e4
-bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
-bg.cframe = torso.CFrame
-local bv = Instance.new("BodyVelocity", torso)
-bv.velocity = Vector3.new(0,0.1,0)
-bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
-repeat wait()
-plr.Character.Humanoid.PlatformStand = true
-if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then
-speed = speed+.5+(speed/maxspeed)
-if speed > maxspeed then
-speed = maxspeed
-end
-elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then
-speed = speed-1
-if speed < 0 then
-speed = 0
-end
-end
-if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then
-bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed
-lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r}
-elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then
-bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed
-else
-bv.velocity = Vector3.new(0,0.1,0)
-end
-bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0)
-until not flying
-ctrl = {f = 0, b = 0, l = 0, r = 0}
-lastctrl = {f = 0, b = 0, l = 0, r = 0}
-speed = 0
-bg:Destroy()
-bv:Destroy()
-plr.Character.Humanoid.PlatformStand = false
-end
-mouse.KeyDown:connect(function(key)
-if key:lower() == "e" then
-if flying then flying = false
-else
-flying = true
-Fly()
-end
-elseif key:lower() == "w" then
-ctrl.f = 1
-elseif key:lower() == "s" then
-ctrl.b = -1
-elseif key:lower() == "a" then
-ctrl.l = -1
-elseif key:lower() == "d" then
-ctrl.r = 1
-end
-end)
-mouse.KeyUp:connect(function(key)
-if key:lower() == "w" then
-ctrl.f = 0
-elseif key:lower() == "s" then
-ctrl.b = 0
-elseif key:lower() == "a" then
-ctrl.l = 0
-elseif key:lower() == "d" then
-ctrl.r = 0
-end
-end)
-Fly()
