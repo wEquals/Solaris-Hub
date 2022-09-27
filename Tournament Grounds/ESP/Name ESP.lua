@@ -5,7 +5,7 @@ local ps = game:GetService("Players")
 local lp = ps.LocalPlayer
 local rs = game:GetService("RunService")
 
-_G.TeamCheck = false
+_G.TeamCheck = true
 
 local function esp(p,cr)
     local h = cr:WaitForChild("Humanoid")
