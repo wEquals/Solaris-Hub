@@ -40,7 +40,7 @@ request(abcdef)
 	
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "Solaris", HidePremium = false, IntroText = "Solaris Hub", SaveConfig = true, ConfigFolder = "1"})
+local Window = OrionLib:MakeWindow({Name = "Solaris Universal Hub", HidePremium = false, IntroText = "Solaris Hub", SaveConfig = true, ConfigFolder = "1"})
 
 local espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/Solaris-Hub/main/testing.lua'),true))()
 espLib:Load()
