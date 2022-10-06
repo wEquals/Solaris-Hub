@@ -31,6 +31,7 @@ request = http_request or request or HttpPost or syn.request
 local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
 request(abcdef)
 
+
 if game.PlaceId == 4888256398 then
 
 	print("1/4 Checking game....")
@@ -39,9 +40,11 @@ if game.PlaceId == 4888256398 then
 	print("4/4 Loading Solaris...")
 	
 
-
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({Name = "Solaris", HidePremium = false, IntroText = "Solaris Hub", SaveConfig = true, ConfigFolder = "1"})
+
+local espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/Solaris-Hub/main/testing.lua'),true))()
+espLib:Load()
 
 local Tab = Window:MakeTab({
 	Name = "ESP Section",
@@ -67,26 +70,53 @@ OrionLib:MakeNotification({
 	Time = 5
 })
 
-
-Tab:AddButton({
+Tab:AddToggle({
 	Name = "Box ESP",
-	Callback = function()
-		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/Solaris-Hub/main/Tournament%20Grounds/ESP/Box%20ESP.lua')))()
-  	end    
+	Default = false,
+	Callback = function(Value)
+		if Value then
+			espLib.options.boxes = true
+		else
+			espLib.options.boxes = false
+		end
+	end    
 })
 
-Tab:AddButton({
+
+Tab:AddToggle({
 	Name = "Name ESP",
-	Callback = function()
-		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/Solaris-Hub/main/Tournament%20Grounds/ESP/Name%20ESP.lua')))()
-  	end    
+	Default = false,
+	Callback = function(Value)
+		if Value then
+			espLib.options.names = true
+		else
+			espLib.options.names = false
+		end
+	end    
 })
 
-Tab:AddButton({
+Tab:AddToggle({
 	Name = "Chams",
-	Callback = function()
-		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/Solaris-Hub/main/Tournament%20Grounds/ESP/Chams.lua')))()
-  	end    
+	Default = false,
+	Callback = function(Value)
+		if Value then
+			espLib.options.chams = true
+		else
+			espLib.options.chams = false
+		end
+	end    
+})
+
+Tab:AddToggle({
+	Name = "Tracers",
+	Default = false,
+	Callback = function(Value)
+		if Value then
+			espLib.options.tracers = true
+		else
+			espLib.options.tracers = false
+		end
+	end    
 })
 
 Tab:AddButton({
@@ -103,12 +133,7 @@ Tab:AddButton({
   	end    
 })
 
-Tab:AddButton({
-	Name = "Tracers",
-	Callback = function()
-		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/Solaris-Hub/main/Tournament%20Grounds/ESP/Tracers.lua')))()
-  	end    
-})
+
 
 local Tab = Window:MakeTab({
 	Name = "Aimbot section",
@@ -162,43 +187,17 @@ Tab:AddSlider({
 		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 	end    
 })
-Tab:AddButton({
-	Name = "Fly",
-	Callback = function()
-		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/Solaris-Hub/main/Tournament%20Grounds/Misc/Fly.lua')))()
-		OrionLib:MakeNotification({
-			Name = "Solaris Hub!",
-			Content = "Keybind is F.",
-			Image = "rbxassetid://4483345998",
-			Time = 5
-		})
-  	end    
+
+Tab:AddSlider({
+	Name = "Jumppower",
+	Min = 16,
+	Max = 500,
+	Default = 16,
+	Color = Color3.fromRGB(1, 217, 255),
+	Increment = 1,
+	ValueName = "Jumppower",
+	Callback = function(Value)
+		game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+	end    
 })
-end
-
-if game.PlaceId == 4483381587 then
-
-	--Checks
-	print("1/4 Checking game....")
-	print("2/4 Murder Mystery 2 detected.")
-	print("3/4 Authenticating....")
-	print("4/4 Loading Solaris...")
-
-	--Booting UI library
-	local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/miroeramaa/TurtleLib/main/TurtleUiLib.lua"))()
-
-
-	--Keybind to hide UI
-	library:Keybind("Delete")
-
-	--ESP Window
-	local window = library:Window("ESP")
-
-	window:Button("Chams", function()
-		print("pressed button")
-	 end)
-
-	 window:Button("Button name", function()
-		print("pressed button")
-	 end)
 end
