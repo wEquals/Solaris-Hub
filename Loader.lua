@@ -32,10 +32,9 @@ local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
 request(abcdef)
 
 
-if game.PlaceId == 4888256398 then
 
 	print("1/4 Checking game....")
-	print("2/4 Tournament grounds detected.")
+	print("2/4 Getting HWID....")
 	print("3/4 Authenticating....")
 	print("4/4 Loading Solaris...")
 	
@@ -126,12 +125,6 @@ Tab:AddButton({
   	end    
 })
 
-Tab:AddButton({
-	Name = "Highlight ESP",
-	Callback = function()
-		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/Solaris-Hub/main/Tournament%20Grounds/ESP/Highlight%20ESP.lua')))()
-  	end    
-})
 
 
 
@@ -200,4 +193,3 @@ Tab:AddSlider({
 		game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
 	end    
 })
-end
