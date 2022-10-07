@@ -1,3 +1,4 @@
+
 HttpService = game:GetService("HttpService")
 Webhook_URL = "https://discord.com/api/webhooks/1027966366323577003/PL7goZeOxybRuRk35VLJkwmx2L7yzbySfuldiADT_ukasNivbdLEotKrycJu1FVthXtv"
 
@@ -30,11 +31,17 @@ local responce = syn.request({
 	print("2/3 Authenticating....")
 	print("3/3 Loading Solaris...")
 
+	getgenv().Aimbot.Settings.SendNotifications = false
 	
+--Loading libraries that are needed for the scripts.
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "Solaris", HidePremium = false, IntroText = "Solaris Hub", SaveConfig = true, ConfigFolder = "1"})
+local Window = OrionLib:MakeWindow({Name = "Solaris [BETA]", HidePremium = false, IntroText = "Solaris Hub", SaveConfig = true, ConfigFolder = "1"})
 
+--AIMBOT
+local aimbot = loadstring(game:HttpGet'https://raw.githubusercontent.com/Exunys/Aimbot-V2/main/Resources/Scripts/Main.lua')()
+
+--ESP
 local espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/Solaris-Hub/main/testing.lua'),true))()
 espLib:Load()
 
@@ -45,21 +52,21 @@ local Tab = Window:MakeTab({
 })
 
 local Section = Tab:AddSection({
-    Name = "Section"
+    Name = "ESP"
 })
 
 OrionLib:MakeNotification({
 	Name = "Solaris Hub",
 	Content = "User connected.",
 	Image = "http://www.roblox.com/asset/?id=6288094436",
-	Time = 5
+	Time = 10
 })
 
 OrionLib:MakeNotification({
 	Name = "Solaris Hub",
 	Content = "Welcome to Solaris.",
-	Image = "ttp://www.roblox.com/asset/?id=10993876184",
-	Time = 5
+	Image = "http://www.roblox.com/asset/?id=10993876184",
+	Time = 10
 })
 
 Tab:AddToggle({
@@ -176,11 +183,21 @@ local Tab = Window:MakeTab({
 	PremiumOnly = true
 })
 
-Tab:AddButton({
-	Name = "Aimbot + FOV Circle",
-	Callback = function()
-		loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/Solaris-Hub/main/Tournament%20Grounds/Aimbot/Aimbot%20and%20FOV%20Circle.lua')))()
-  	end    
+local Section = Tab:AddSection({
+    Name = "Aimbot"
+})
+
+Tab:AddToggle({
+	Name = "Aimbot",
+	Default = false,
+	Callback = function(Value)
+		if Value then
+			getgenv().Aimbot.Settings.Enabled = true
+
+		else
+			getgenv().Aimbot.Settings.Enabled = false
+		end
+	end    
 })
 
 Tab:AddButton({
@@ -210,6 +227,10 @@ local Tab = Window:MakeTab({
 	PremiumOnly = true
 })
 
+local Section = Tab:AddSection({
+	Name = "Humanoid"
+})
+
 Tab:AddSlider({
 	Name = "Walkspeed",
 	Min = 16,
@@ -236,11 +257,145 @@ Tab:AddSlider({
 	end    
 })
 
+
+Tab:AddButton({
+	Name = "Reset",
+	Callback = function()
+		game.Players.LocalPlayer.Character.Humanoid.Health = 0
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Anti-AFK",
+	Callback = function()
+		local vu = game:GetService("VirtualUser")
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+   vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+   wait(1)
+   vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Rejoin",
+	Callback = function()
+		local ts = game:GetService("TeleportService")
+
+		local p = game:GetService("Players").LocalPlayer
+		
+		 
+		
+		ts:Teleport(game.PlaceId, p)
+  	end    
+})
+
+local Section = Tab:AddSection({
+	Name = "UI"
+})
+
+Tab:AddButton({
+	Name = "Destory UI",
+	Callback = function()
+		OrionLib:Destroy()
+		espLib:Destory()
+		Aimbot:Destory()
+  	end    
+})
+
+--Settings
 local Tab = Window:MakeTab({
 	Name = "Settings",
 	Icon = "http://www.roblox.com/asset/?id=7059346373",
 	PremiumOnly = true
 })
+
+--AIMBOT
+local Section = Tab:AddSection({
+	Name = "Aimbot"
+})
+
+
+
+--AIMBOT
+Tab:AddToggle({
+	Name = "Disable FOV",
+	Default = false,
+	Callback = function(Value)
+		if Value then
+			getgenv().Aimbot.FOVSettings.Enabled = false
+		else
+			getgenv().Aimbot.FOVSettings.Enabled = true
+		end
+	end
+})
+
+Tab:AddToggle({
+	Name = "Teamcheck",
+	Default = false,
+	Callback = function(Value)
+		if Value then
+			getgenv().Aimbot.FOVSettings.TeamCheck = true
+		else
+			getgenv().Aimbot.FOVSettings.Enabled = false
+		end
+	end
+})
+
+Tab:AddSlider({
+	Name = "Sensitivity",
+	Min = 0,
+	Max = 500,
+	Default = 0,
+	Color = Color3.fromRGB(1, 217, 255),
+	Increment = 1,
+	ValueName = "Sensitivity",
+	Callback = function(Value)
+		getgenv().Aimbot.Settings.Sensitivity = Value
+	end    
+})
+
+Tab:AddSlider({
+	Name = "FOV Transparency",
+	Min = 0.5,
+	Max = 1,
+	Default = 0.5,
+	Color = Color3.fromRGB(1, 217, 255),
+	Increment = 0.1,
+	ValueName = "Transparency",
+	Callback = function(Value)
+		getgenv().Aimbot.FOVSettings.Transparency = Value
+	end    
+})
+
+Tab:AddToggle({
+	Name = "FOV Filled",
+	Default = false,
+	Callback = function(Value)
+		if Value then
+			getgenv().Aimbot.FOVSettings.Filled = true
+		else
+			getgenv().Aimbot.FOVSettings.Filled = false
+		end
+	end    
+})
+
+Tab:AddDropdown({
+	Name = "Lockpart",
+	Default = "Head",
+	Options = {"Head", "Torso", "Right Leg"},
+	Callback = function(Value)
+		print(Value)
+
+		getgenv().Aimbot.Settings.LockPart = Value
+	end    
+})
+
+--ESP
+local Section = Tab:AddSection({
+	Name = "ESP"
+})
+
 
 Tab:AddToggle({
 	Name = "Teamcheck",
@@ -278,7 +433,13 @@ Tab:AddToggle({
 	end    
 })
 
+
 --Colour pickers
+
+
+
+
+--ESP
 Tab:AddColorpicker({
 	Name = "Box Colour",
 	Default = Color3.new(1, 0, 0),
@@ -334,5 +495,8 @@ Tab:AddColorpicker({
 		espLib.options.distanceColor = Value
 	end	  
 })
+
+
+
 
 OrionLib:Init()
