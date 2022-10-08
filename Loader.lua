@@ -29,6 +29,7 @@ local responce = syn.request({
 	
 --Loading libraries that are needed for the scripts.
 
+--UI (User Interface)
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({Name = "Solaris [BETA]", HidePremium = false, IntroText = "Solaris Hub", SaveConfig = true, ConfigFolder = "1"})
 
