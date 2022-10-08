@@ -251,13 +251,18 @@ Tab:AddSlider({
 	end    
 })
 
-
 Tab:AddButton({
 	Name = "Reset",
 	Callback = function()
 		game.Players.LocalPlayer.Character.Humanoid.Health = 0
   	end    
 })
+
+local Section = Tab:AddSection({
+	Name = "Global"
+})
+
+
 
 Tab:AddButton({
 	Name = "Anti-AFK",
@@ -313,13 +318,25 @@ local Section = Tab:AddSection({
 
 --AIMBOT
 Tab:AddToggle({
-	Name = "Disable FOV",
+	Name = "Enable FOV",
 	Default = false,
 	Callback = function(Value)
 		if Value then
-			getgenv().Aimbot.FOVSettings.Enabled = false
-		else
 			getgenv().Aimbot.FOVSettings.Enabled = true
+		else
+			getgenv().Aimbot.FOVSettings.Enabled = false
+		end
+	end
+})
+
+Tab:AddToggle({
+	Name = "WallCheck",
+	Default = false,
+	Callback = function(Value)
+		if Value then
+			getgenv().Aimbot.Settings.WallCheck = true
+		else
+			getgenv().Aimbot.Settings.WallCheck = false
 		end
 	end
 })
@@ -338,11 +355,11 @@ Tab:AddToggle({
 
 Tab:AddSlider({
 	Name = "Sensitivity",
-	Min = 0,
+	Min = 0.5,
 	Max = 500,
-	Default = 0,
+	Default = 0.5,
 	Color = Color3.fromRGB(1, 217, 255),
-	Increment = 1,
+	Increment = 0.5,
 	ValueName = "Sensitivity",
 	Callback = function(Value)
 		getgenv().Aimbot.Settings.Sensitivity = Value
@@ -359,6 +376,19 @@ Tab:AddSlider({
 	ValueName = "Transparency",
 	Callback = function(Value)
 		getgenv().Aimbot.FOVSettings.Transparency = Value
+	end    
+})
+
+Tab:AddSlider({
+	Name = "FOV Size",
+	Min = 10,
+	Max = 800,
+	Default = 90,
+	Color = Color3.fromRGB(1, 217, 255),
+	Increment = 10,
+	ValueName = "Amount",
+	Callback = function(Value)
+		getgenv().Aimbot.FOVSettings.Amount = Value
 	end    
 })
 
@@ -379,9 +409,20 @@ Tab:AddDropdown({
 	Default = "Head",
 	Options = {"Head", "Torso", "Right Leg"},
 	Callback = function(Value)
-		print(Value)
+		print("Lockpart is "..Value)
 
 		getgenv().Aimbot.Settings.LockPart = Value
+	end    
+})
+
+Tab:AddDropdown({
+	Name = "Trigger Key",
+	Default = "MouseButton2",
+	Options = {"MouseButton2", "MouseButton1", "E"},
+	Callback = function(Value)
+		print("Trigger key is "..Value)
+
+		getgenv().Aimbot.Settings.TriggerKey  = Value
 	end    
 })
 
