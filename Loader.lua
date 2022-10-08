@@ -26,12 +26,6 @@ local responce = syn.request({
     })
 })
 
-
-	print("1/3 Getting HWID....")
-	print("2/3 Authenticating....")
-	print("3/3 Loading Solaris...")
-
-	getgenv().Aimbot.Settings.SendNotifications = false
 	
 --Loading libraries that are needed for the scripts.
 
