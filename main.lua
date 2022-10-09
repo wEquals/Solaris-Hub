@@ -25,7 +25,6 @@ local responce = syn.request({
         }}
     })
 })
-
 	
 --Loading libraries that are needed for the scripts.
 
@@ -290,6 +289,32 @@ Tab:AddButton({
   	end    
 })
 
+Tab:AddButton({
+	Name = "Anti-AFK",
+	Callback = function()
+		local vu = game:GetService("VirtualUser")
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+   vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+   wait(1)
+   vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Reset Aimbot Settings",
+	Callback = function()
+		getgenv().Aimbot.Functions:ResetSettings()
+		OrionLib:MakeNotification({
+			Name = "Solaris Hub",
+			Content = "Successfully reset Aimbot settings.",
+			Image = "rbxassetid://4483345998",
+			Time = 5
+		})
+	end
+})
+
+
 local Section = Tab:AddSection({
 	Name = "UI"
 })
@@ -319,7 +344,7 @@ local Section = Tab:AddSection({
 
 --AIMBOT
 Tab:AddToggle({
-	Name = "Enable FOV",
+	Name = "Draw FOV",
 	Default = false,
 	Callback = function(Value)
 		if Value then
@@ -356,7 +381,7 @@ Tab:AddToggle({
 
 Tab:AddSlider({
 	Name = "Sensitivity",
-	Min = 0.5,
+	Min = 0.1,
 	Max = 500,
 	Default = 0.5,
 	Color = Color3.fromRGB(1, 217, 255),
@@ -390,6 +415,19 @@ Tab:AddSlider({
 	ValueName = "Amount",
 	Callback = function(Value)
 		getgenv().Aimbot.FOVSettings.Amount = Value
+	end    
+})
+
+Tab:AddSlider({
+	Name = "FOV Sides",
+	Min = 10,
+	Max = 800,
+	Default = 60,
+	Color = Color3.fromRGB(1, 217, 255),
+	Increment = 10,
+	ValueName = "Amount",
+	Callback = function(Value)
+		getgenv().Aimbot.FOVSettings.Sides  = Value
 	end    
 })
 
