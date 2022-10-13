@@ -411,16 +411,6 @@ Tab:AddDropdown({
 	end    
 })
 
-Tab:AddDropdown({
-	Name = "Trigger Key",
-	Default = "MouseButton2",
-	Options = {"MouseButton2", "MouseButton1", "E"},
-	Callback = function(Value)
-		print("Trigger key is "..Value)
-
-		aimbot.Key = Value
-	end    
-})
 
 --ESP
 local Section = Tab:AddSection({
