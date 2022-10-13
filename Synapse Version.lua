@@ -24,15 +24,24 @@ local responce = syn.request({
         }}
     })
 })
-	
---Loading libraries that are needed for the scripts.
+
+--[[
+
+Loading libraries
+
+	--]]
 
 --UI (User Interface)
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({Name = "Solaris [BETA]", HidePremium = false, IntroText = "Solaris Hub", SaveConfig = true, ConfigFolder = "1"})
 
 --AIMBOT
-local aimbot = loadstring(game:HttpGet'https://raw.githubusercontent.com/Exunys/Aimbot-V2/main/Resources/Scripts/Main.lua')()
+local aimbot = loadstring(game:HttpGet'https://github.com/RunDTM/Zeerox-Aimbot/raw/main/library.lua')()
+
+--AIMBOT SETTINGS 
+aimbot.Key = Enum.UserInputType.MouseButton2
+aimbot.Players = true
+aimbot.AliveCheck = true
 
 --ESP
 local espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/wEquals/Solaris-Hub/main/testing.lua'),true))()
@@ -185,10 +194,10 @@ Tab:AddToggle({
 	Default = false,
 	Callback = function(Value)
 		if Value then
-			getgenv().Aimbot.Settings.Enabled = true
+			aimbot.Enabled = true
 
 		else
-			getgenv().Aimbot.Settings.Enabled = false
+			aimbot.Enabled = false
 		end
 	end    
 })
@@ -289,19 +298,6 @@ Tab:AddButton({
 })
 
 
-Tab:AddButton({
-	Name = "Reset Aimbot Settings",
-	Callback = function()
-		getgenv().Aimbot.Functions:ResetSettings()
-		OrionLib:MakeNotification({
-			Name = "Solaris Hub",
-			Content = "Successfully reset Aimbot settings.",
-			Image = "rbxassetid://4483345998",
-			Time = 5
-		})
-	end
-})
-
 
 local Section = Tab:AddSection({
 	Name = "UI"
@@ -312,7 +308,7 @@ Tab:AddButton({
 	Callback = function()
 		OrionLib:Destroy()
 		espLib:Destory()
-		Aimbot:Destory()
+		aimbot:Destory()
   	end    
 })
 
@@ -323,74 +319,25 @@ local Tab = Window:MakeTab({
 	PremiumOnly = true
 })
 
+
+
+
 --AIMBOT
+
 local Section = Tab:AddSection({
-	Name = "Aimbot"
+	Name = "FOV Settings"
 })
 
-
-
---AIMBOT
 Tab:AddToggle({
 	Name = "Draw FOV",
 	Default = false,
 	Callback = function(Value)
 		if Value then
-			getgenv().Aimbot.FOVSettings.Enabled = true
+			aimbot.ShowFOV = true
 		else
-			getgenv().Aimbot.FOVSettings.Enabled = false
+			aimbot.ShowFOV = false
 		end
 	end
-})
-
-Tab:AddToggle({
-	Name = "WallCheck",
-	Default = false,
-	Callback = function(Value)
-		if Value then
-			getgenv().Aimbot.Settings.WallCheck = true
-		else
-			getgenv().Aimbot.Settings.WallCheck = false
-		end
-	end
-})
-
-Tab:AddToggle({
-	Name = "Teamcheck",
-	Default = false,
-	Callback = function(Value)
-		if Value then
-			getgenv().Aimbot.FOVSettings.TeamCheck = true
-		else
-			getgenv().Aimbot.FOVSettings.Enabled = false
-		end
-	end
-})
-
-Tab:AddSlider({
-	Name = "Sensitivity",
-	Min = 0.1,
-	Max = 500,
-	Default = 0.5,
-	Color = Color3.fromRGB(1, 217, 255),
-	Increment = 0.5,
-	ValueName = "Sensitivity",
-	Callback = function(Value)
-		getgenv().Aimbot.Settings.Sensitivity = Value
-	end    
-})
-
-Tab:AddSlider({
-	Name = "FOV Transparency",
-	Min = 0.5,
-	Max = 1,
-	Default = 0.5,
-	Color = Color3.fromRGB(1, 217, 255),
-	Increment = 0.1,
-	ValueName = "Transparency",
-	Callback = function(Value)
-		getgenv().Aimbot.FOVSettings.Transparency = Value
-	end    
 })
 
 Tab:AddSlider({
@@ -402,34 +349,56 @@ Tab:AddSlider({
 	Increment = 10,
 	ValueName = "Amount",
 	Callback = function(Value)
-		getgenv().Aimbot.FOVSettings.Amount = Value
+		aimbot.FOV = Value
 	end    
 })
 
-Tab:AddSlider({
-	Name = "FOV Sides",
-	Min = 10,
-	Max = 800,
-	Default = 60,
-	Color = Color3.fromRGB(1, 217, 255),
-	Increment = 10,
-	ValueName = "Amount",
-	Callback = function(Value)
-		getgenv().Aimbot.FOVSettings.Sides  = Value
-	end    
+--AIMBOT
+local Section = Tab:AddSection({
+	Name = "Aimbot"
 })
+
 
 Tab:AddToggle({
-	Name = "FOV Filled",
+	Name = "WallCheck",
 	Default = false,
 	Callback = function(Value)
 		if Value then
-			getgenv().Aimbot.FOVSettings.Filled = true
+			aimbot.VisibilityCheck = true
 		else
-			getgenv().Aimbot.FOVSettings.Filled = false
+			aimbot.VisibilityCheck = false
 		end
+	end
+})
+
+Tab:AddToggle({
+	Name = "Teamcheck",
+	Default = false,
+	Callback = function(Value)
+		if Value then
+			aimbot.TeamCheck = true
+		else
+			aimbot.TeamCheck = false
+		end
+	end
+})
+
+Tab:AddSlider({
+	Name = "Smoothing",
+	Min = 0.1,
+	Max = 500,
+	Default = 0.5,
+	Color = Color3.fromRGB(1, 217, 255),
+	Increment = 0.5,
+	ValueName = "Sensitivity",
+	Callback = function(Value)
+		aimbot.Smoothing = Value
 	end    
 })
+
+
+
+
 
 Tab:AddDropdown({
 	Name = "Lockpart",
@@ -438,7 +407,7 @@ Tab:AddDropdown({
 	Callback = function(Value)
 		print("Lockpart is "..Value)
 
-		getgenv().Aimbot.Settings.LockPart = Value
+		aimbot.PlayerPart = Value
 	end    
 })
 
@@ -449,7 +418,7 @@ Tab:AddDropdown({
 	Callback = function(Value)
 		print("Trigger key is "..Value)
 
-		getgenv().Aimbot.Settings.TriggerKey  = Value
+		aimbot.Key = Value
 	end    
 })
 
