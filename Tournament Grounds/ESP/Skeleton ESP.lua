@@ -4,8 +4,8 @@ local localplayer = entities.LocalPlayer
 local runservice = game:GetService("RunService")
 
 local esp_settings = {
-    enabled = true,
-    skel = true,
+    enabled = false,
+    skel = false,
     skel_col = Color3.fromRGB(255,255,255)
 }
 
