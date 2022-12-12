@@ -276,7 +276,6 @@ function espLibrary.addEsp(player)
         }),
         box = create("Square", {
             Thickness = 1,
-            ZIndex = -5,
             Filled = false
         }),
         healthBarOutline = create("Square", {
