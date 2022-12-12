@@ -268,7 +268,7 @@ function espLibrary.addEsp(player)
         }),
         boxFill = create("Square", {
             Thickness = 1,
-            Filled = true,
+            Filled = false,
         }),
         boxOutline = create("Square", {
             Thickness = 3,
