@@ -42,7 +42,7 @@ local function wrap(f) coroutine.resume(coroutine.create(f)) end
 if game.GameId == 450749276 then
     getgenv().swimhub_settings.safemode = true
 end
-local title,title2 = ' / beta / v%s / fps %s / ping %s', 'uid: 1 / >w<'
+local title,title2 = ' / beta / v%s / fps %s / ping %s', 'uid: unknown / >w<'
 if getgenv().swimhub_settings == nil then
     getgenv().swimhub_settings = {
         safemode = false, -- anti AC detection with universal
@@ -1246,7 +1246,7 @@ local WatermarkConnection = game:GetService('RunService').RenderStepped:Connect(
         FrameCounter = 0;
     end;
 
-    Library:SetWatermark(('>w< / beta / build: dev / uid: 1 / %s fps / %s ms'):format(
+    Library:SetWatermark(('>w< / beta / build: public / uid: unknown / %s fps / %s ms'):format(
         math.floor(FPS),
         math.floor(game:GetService('Stats').Network.ServerStatsItem['Data Ping']:GetValue())
     ));
